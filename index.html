@@ -5,10 +5,11 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        text-align: center;
-        margin-top: 50px;
+        display: flex;
         justify-content: center;
         align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
       }
       .title {
         font-size: 36px;
@@ -17,9 +18,6 @@
       .rules {
         font-size: 16px;
         margin-bottom: 20px;
-      }
-      .instructions {
-        font-size: 16px;
       }
       .grid {
         display: grid;
@@ -39,7 +37,7 @@
   </head>
   <body>
     <div>
-      <div class="title">Wordle Clone</div>
+      <div class="title">Custom Vocabulary Wordle</div>
       <div class="rules">
         <p><strong>Rules:</strong></p>
         <ul>
@@ -48,12 +46,13 @@
           <li>Grey: Letter is not in the word.</li>
         </ul>
       </div>
-      <div class="grid"></div>
-      <div class="instructions">
-        <p>
-          Use your keyboard to enter a 5-letter word and press Enter to guess.
-        </p>
-        <p>Press Backspace to delete a letter.</p>
+      <div class="rules">
+        <p><strong>Instructions:</strong></p>
+        <ul>
+          <li>Use your keyboard to enter a 5-letter word.</li>
+          <li>Press Enter to guess.</li>
+          <li>Press Backspace to delete a letter.</li>
+        </ul>
       </div>
       <div class="grid"></div>
     </div>
