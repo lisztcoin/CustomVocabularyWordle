@@ -3,6 +3,24 @@
   <head>
     <title>Wordle Clone</title>
     <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+        justify-content: center;
+        align-items: center;
+      }
+      .title {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+      .rules {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .instructions {
+        font-size: 16px;
+      }
       .grid {
         display: grid;
         grid-template-columns: repeat(5, 50px);
@@ -20,7 +38,25 @@
     </style>
   </head>
   <body>
-    <div class="grid"></div>
+    <div>
+      <div class="title">Wordle Clone</div>
+      <div class="rules">
+        <p><strong>Rules:</strong></p>
+        <ul>
+          <li>Green: Letter is correct and in the right position.</li>
+          <li>Yellow: Letter is correct but in the wrong position.</li>
+          <li>Grey: Letter is not in the word.</li>
+        </ul>
+      </div>
+      <div class="grid"></div>
+      <div class="instructions">
+        <p>
+          Use your keyboard to enter a 5-letter word and press Enter to guess.
+        </p>
+        <p>Press Backspace to delete a letter.</p>
+      </div>
+      <div class="grid"></div>
+    </div>
     <script>
       const grid = document.querySelector(".grid");
       let targetWord = "";
