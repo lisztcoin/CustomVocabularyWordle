@@ -137,7 +137,9 @@
 
       // Create Keyboard.
       const keyboard = document.querySelector(".keyboard");
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        .split("")
+        .concat(["Enter", "Backspace"]);
       letters.forEach((letter) => {
         const key = document.createElement("div");
         key.classList.add("key");
