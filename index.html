@@ -33,6 +33,22 @@
         font-size: 24px;
         line-height: 50px;
       }
+      .keyboard {
+        display: grid;
+        grid-template-columns: repeat(10, 30px);
+        grid-gap: 5px;
+        margin-top: 20px;
+      }
+      .key {
+        width: 30px;
+        height: 30px;
+        border: 1px solid black;
+        text-transform: uppercase;
+        text-align: center;
+        font-size: 18px;
+        line-height: 30px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -55,12 +71,43 @@
         </ul>
       </div>
       <div class="grid"></div>
+      <div class="keyboard"></div>
     </div>
     <script>
       const grid = document.querySelector(".grid");
       let targetWord = "";
       let currentGuess = [];
       let guessCount = 0;
+
+      // Create Keyboard.
+      const keyboard = document.querySelector(".keyboard");
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      letters.forEach((letter) => {
+        const key = document.createElement("div");
+        key.classList.add("key");
+        key.textContent = letter;
+        key.addEventListener("click", () => handleKeyPress({ key: letter }));
+        keyboard.appendChild(key);
+      });
+
+      function updateKeyboard() {
+        const keys = keyboard.querySelectorAll(".key");
+        keys.forEach((key) => {
+          const letter = key.textContent;
+          if (currentGuess.includes(letter)) {
+            const index = currentGuess.indexOf(letter);
+            if (targetWord[index] === letter) {
+              key.style.backgroundColor = "green";
+            } else if (targetWord.includes(letter)) {
+              key.style.backgroundColor = "yellow";
+            } else {
+              key.style.backgroundColor = "grey";
+            }
+          } else {
+            key.style.backgroundColor = "";
+          }
+        });
+      }
 
       // Read words from file and set a random target word
       fetch("five-letter-words.txt")
@@ -135,6 +182,8 @@
           );
           document.removeEventListener("keydown", handleKeyPress);
         }
+
+        updateKeyboard();
       }
     </script>
   </body>
