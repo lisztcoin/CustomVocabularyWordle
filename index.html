@@ -48,6 +48,9 @@
         line-height: 30px;
         cursor: pointer;
       }
+      .resetclass {
+        margin-top: 5px;
+      }
     </style>
   </head>
   <body>
@@ -57,7 +60,9 @@
         <label for="fileInput">Upload your vocabulary txt file:</label>
         <input type="file" id="fileInput" accept=".txt" />
       </div>
-      <button id="restartButton">Restart Game with Current Vocabulary</button>
+      <button id="restartButton" class="resetclass">
+        Restart Game with Current Vocabulary
+      </button>
       <div class="rules">
         <p><strong>Rules:</strong></p>
         <ul>
@@ -90,6 +95,7 @@
       let targetWord = "";
       let currentGuess = [];
       let guessCount = 0;
+      let words = [];
 
       fileInput.addEventListener("change", (event) => {
         const file = event.target.files[0];
@@ -97,7 +103,7 @@
           const reader = new FileReader();
           reader.onload = (e) => {
             const text = e.target.result;
-            const words = text.split("\n").filter((word) => word.length === 5);
+            words = text.split("\n").filter((word) => word.length === 5);
             if (words.length > 0) {
               targetWord =
                 words[Math.floor(Math.random() * words.length)].toUpperCase();
@@ -112,6 +118,9 @@
       });
 
       function resetGame() {
+        targetWord =
+          words[Math.floor(Math.random() * words.length)].toUpperCase();
+        console.log("Target Word:", targetWord); // For debugging
         guessCount = 0;
         currentGuess = [];
         grid.querySelectorAll(".cell").forEach((cell) => {
@@ -158,7 +167,7 @@
       fetch("five-letter-words.txt")
         .then((response) => response.text())
         .then((text) => {
-          const words = text.split("\n").filter((word) => word.length === 5);
+          words = text.split("\n").filter((word) => word.length === 5);
           targetWord =
             words[Math.floor(Math.random() * words.length)].toUpperCase();
           console.log("Target Word:", targetWord); // For debugging
@@ -173,7 +182,12 @@
       document.addEventListener("keydown", handleKeyPress);
 
       function handleKeyPress(e) {
-        if (guessCount >= 6) return;
+        if (
+          guessCount >= 6 ||
+          e.target === restartButton ||
+          e.target == fileInput
+        )
+          return;
 
         const letter = e.key.toUpperCase();
         if (letter >= "A" && letter <= "Z" && currentGuess.length < 5) {
