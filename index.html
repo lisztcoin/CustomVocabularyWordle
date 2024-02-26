@@ -34,9 +34,14 @@
       }
       .keyboard {
         display: grid;
-        grid-template-columns: repeat(10, 30px);
+        grid-template-columns: repeat(12, minmax(30px, 1fr));
         grid-gap: 5px;
         margin-top: 20px;
+      }
+      .key.long-key {
+        width: auto;
+        grid-column: span 3;
+        font-size: 14px; /* Adjust the font size as needed */
       }
       .key {
         width: 30px;
@@ -140,9 +145,13 @@
       const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         .split("")
         .concat(["Enter", "Backspace"]);
+
       letters.forEach((letter) => {
         const key = document.createElement("div");
         key.classList.add("key");
+        if (letter === "Enter" || letter === "Backspace") {
+          key.classList.add("long-key");
+        }
         key.textContent = letter;
         key.addEventListener("click", () => handleKeyPress({ key: letter }));
         keyboard.appendChild(key);
@@ -192,16 +201,22 @@
           return;
 
         const letter = e.key.toUpperCase();
-        if (letter >= "A" && letter <= "Z" && currentGuess.length < 5) {
-          currentGuess.push(letter);
-          updateGrid();
-        } else if (e.key === "Backspace" && currentGuess.length > 0) {
+        if (e.key === "Backspace" && currentGuess.length > 0) {
           currentGuess.pop();
           updateGrid();
         } else if (e.key === "Enter" && currentGuess.length === 5) {
           checkGuess();
           currentGuess = [];
           guessCount++;
+          updateGrid();
+        } else if (
+          e.key != "Enter" &&
+          e.key != "Backspace" &&
+          letter >= "A" &&
+          letter <= "Z" &&
+          currentGuess.length < 5
+        ) {
+          currentGuess.push(letter);
           updateGrid();
         }
       }
