@@ -54,9 +54,21 @@
   <body>
     <div>
       <div class="title">Custom Vocabulary Wordle</div>
+      <div class="file-upload">
+        <label for="fileInput">Upload your vocabulary txt file:</label>
+        <input type="file" id="fileInput" accept=".txt" />
+      </div>
       <div class="rules">
         <p><strong>Rules:</strong></p>
         <ul>
+          <li>
+            By default we are using
+            <a
+              href="https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt"
+              >this vocabulary file.</a
+            >
+          </li>
+          <li>You have 6 tries to guess a 5 letter word.</li>
           <li>Green: Letter is correct and in the right position.</li>
           <li>Yellow: Letter is correct but in the wrong position.</li>
           <li>Grey: Letter is not in the word.</li>
@@ -78,6 +90,39 @@
       let targetWord = "";
       let currentGuess = [];
       let guessCount = 0;
+
+      fileInput.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const text = e.target.result;
+            const words = text.split("\n").filter((word) => word.length === 5);
+            if (words.length > 0) {
+              targetWord =
+                words[Math.floor(Math.random() * words.length)].toUpperCase();
+              console.log("Target Word:", targetWord); // For debugging
+              resetGame();
+            } else {
+              alert("No 5-letter words found in the file.");
+            }
+          };
+          reader.readAsText(file);
+        }
+      });
+
+      function resetGame() {
+        guessCount = 0;
+        currentGuess = [];
+        grid.querySelectorAll(".cell").forEach((cell) => {
+          cell.textContent = "";
+          cell.style.backgroundColor = "";
+        });
+        keyboard.querySelectorAll(".key").forEach((key) => {
+          key.style.backgroundColor = "";
+        });
+        document.addEventListener("keydown", handleKeyPress);
+      }
 
       // Create Keyboard.
       const keyboard = document.querySelector(".keyboard");
