@@ -57,6 +57,7 @@
         <label for="fileInput">Upload your vocabulary txt file:</label>
         <input type="file" id="fileInput" accept=".txt" />
       </div>
+      <button id="restartButton">Restart Game with Current Vocabulary</button>
       <div class="rules">
         <p><strong>Rules:</strong></p>
         <ul>
@@ -122,6 +123,8 @@
         });
         document.addEventListener("keydown", handleKeyPress);
       }
+
+      restartButton.addEventListener("click", resetGame);
 
       // Create Keyboard.
       const keyboard = document.querySelector(".keyboard");
